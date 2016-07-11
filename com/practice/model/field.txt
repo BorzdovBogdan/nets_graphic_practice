@@ -1,0 +1,11 @@
+BBBBBBBBBBBBBBBBBBBBBBB
+Bc                    B
+B 1 1 1 1 1 1 1 1 1 1 B
+B                     B
+B 1 1 1 1 1 1 1 1 1 1 B
+B                     B
+B 1 1 1 1 1 1 1 1 1 1 B
+B                     B
+B 1 1 1 1 1 1 1 1 1 1 B
+B                    dB
+BBBBBBBBBBBBBBBBBBBBBBB
