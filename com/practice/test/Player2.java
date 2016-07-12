@@ -1,4 +1,5 @@
-package com.company;
+/*
+package nets_graphic_practice.com.practice.test;
 
 import javax.swing.*;
 import java.awt.*;
@@ -6,7 +7,7 @@ import java.awt.event.KeyEvent;
 
 public class Player2 implements Runnable{
 
-    private String sprite2 = "/images/bomberman2.png";
+    private String sprite2 = "2.png";
     private int dx2;
     private int dy2;
     private int x2;
@@ -97,3 +98,4 @@ public class Player2 implements Runnable{
     }
 }
 
+*/

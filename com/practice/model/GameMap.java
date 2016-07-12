@@ -2,31 +2,87 @@ package nets_graphic_practice.com.practice.model;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
+import java.util.Random;
+
+import static nets_graphic_practice.com.practice.test.Actions.*;
 
 /**
  * Created by Bogdan on 06.07.2016.
  */
 public class GameMap implements ActionListener {
-    private char map[][];
+
+    private final char map[][];
     private ArrayList<Player> players;
     private ArrayList<Bomb> bombs;
-    private GameMapReader gmr;
     public GameMap(GameMapReader gmr/*,ArrayList<Player> players*/){
         gmr.load("field.txt");
         this.map = gmr.getMap();
         players = new ArrayList<>();
-        bombs = new ArrayList<>();
-    }
-    public void move(){
+        int c;
 
+        for(int i = 0; i < map.length;i++) {
+            for (int j = 0; j < map[i].length; j++) {
+                c = map[i][j];
+                if (c == 'c' ) {
+                    players.add(new Player(4, 4, c));
+                }
+            }
+            //this.players = players;
+            bombs = new ArrayList<>();
+
+        }
+    }
+    public boolean move(int key,Player player){
+        int x = player.getX();
+        int y = player.getY();
+        switch (key){
+            case KeyEvent.VK_DOWN: {
+                if(y+1 < map.length && map[y+1][x]==' '){
+                    map[y+1][x] =(char) player.getID();
+                    player.setY(y+1);
+                    map[y][x] = ' ';
+                    return true;
+                }
+                return false;
+            }
+            case KeyEvent.VK_UP : {
+                if(y-1 >-1 && map[y-1][x]==' '){
+                    map[y-1][x] = (char) player.getID();
+                    player.setY(y-1);
+                    map[y][x] = ' ';
+                    return true;
+                }
+                return false;
+            }
+            case KeyEvent.VK_RIGHT : {
+                if(x+1 < map[y].length && map[y][x+1]==' '){
+                    map[y][x+1] = (char) player.getID();
+                    player.setX(x+1);
+                    map[y][x] = ' ';
+                    return true;
+                }
+                return false;
+            }
+            case KeyEvent.VK_LEFT: {
+                if(x-1 > -1  && map[y][x-1]==' '){
+                    map[y][x-1] = (char) player.getID();
+                    player.setX(x-1);
+                    map[y][x] = ' ';
+                    return true;
+                }
+                return false;
+            }
+        }
+        return false;
     }
     /**
      * a bomb set to location of player and player move to previous location
      */
-    public void setBomb(){
-        map[players.get(0).getX()][players.get(0).getY()] = '*';
-        bombs.add(new Bomb(players.get(0).getX(),players.get(0).getY()));
+    public void setBomb(Player player){
+        map[player.getX()][player.getY()] = '*';
+        bombs.add(new Bomb(player.getX(),player.getY()));
     }
     public void tick(){
         for (int i = 0; i < bombs.size();i++){
@@ -38,6 +94,11 @@ public class GameMap implements ActionListener {
             }
         }
     }
+
+    public ArrayList<Player> getPlayers() {
+        return players;
+    }
+
     public boolean isEnd(Player player){
         return player.getHealth()==0;
     }

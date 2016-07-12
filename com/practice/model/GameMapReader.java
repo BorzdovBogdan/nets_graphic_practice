@@ -64,12 +64,6 @@ public class GameMapReader {
         catch(IOException ex){
             System.out.println(ex.getMessage());
         }
-        for (int i = 0; i < width; i++) {
-                for (int j = 0; j < length; j++) {
-                    System.out.print(map[i][j]);
-                }
-                System.out.println();
-        }
     }
 
     public char[][] getMap() {
