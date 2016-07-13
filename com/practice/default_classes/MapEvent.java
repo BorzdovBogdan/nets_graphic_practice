@@ -1,4 +1,4 @@
-package nets_graphic_practice.com.practice.view;
+package nets_graphic_practice.com.practice.default_classes;
 
 /**
  * Created by Bogdan on 11.07.2016.

@@ -11,10 +11,14 @@ public class Player {
     private int killed;
     private int x;
     private int y;
+    private int prevX;
+    private int prevY;
     private int ID;
     private Image image;
     public Player(int x, int y,int id){
         ID =id;
+        prevX =31;
+        prevY =31;
         this.x = x;
         this.y = y;
         ImageIcon iiPlayer1 = new ImageIcon(this.getClass().getResource("1.png"));
@@ -42,6 +46,21 @@ public class Player {
         this.y = y;
     }
 
+    public void setPrevX(int prevX) {
+        this.prevX = prevX;
+    }
+
+    public void setPrevY(int prevY) {
+        this.prevY = prevY;
+    }
+
+    public int getPrevX() {
+        return prevX;
+    }
+
+    public int getPrevY() {
+        return prevY;
+    }
     public int getX() {
 
         return x;

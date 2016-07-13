@@ -1,4 +1,4 @@
-package nets_graphic_practice.com.practice.test;
+package nets_graphic_practice.com.practice.view;
 
 /**
  * Created by Bogdan on 11.07.2016.

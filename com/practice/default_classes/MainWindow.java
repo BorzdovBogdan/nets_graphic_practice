@@ -1,10 +1,8 @@
-package nets_graphic_practice.com.practice.view;
+package nets_graphic_practice.com.practice.default_classes;
 
 import nets_graphic_practice.com.practice.model.GameMap;
 
 import javax.swing.*;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 
 /**
  * Created by Bogdan on 11.07.2016.

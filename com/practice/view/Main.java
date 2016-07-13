@@ -1,4 +1,4 @@
-package nets_graphic_practice.com.practice.test;
+package nets_graphic_practice.com.practice.view;
 
 import nets_graphic_practice.com.practice.model.GameMap;
 import nets_graphic_practice.com.practice.model.GameMapReader;

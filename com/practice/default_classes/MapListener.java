@@ -1,6 +1,5 @@
-package nets_graphic_practice.com.practice.view;
+package nets_graphic_practice.com.practice.default_classes;
 
-import java.awt.event.ActionListener;
 import java.awt.event.KeyListener;
 
 /**

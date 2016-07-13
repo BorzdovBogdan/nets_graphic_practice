@@ -1,4 +1,4 @@
-package nets_graphic_practice.com.practice.test;
+package nets_graphic_practice.com.practice.view;
 
 import nets_graphic_practice.com.practice.model.GameMap;
 
@@ -12,7 +12,7 @@ public class GameWindow extends JFrame {
         gameMap = gm;
         frame = new JFrame("BOMBERMAN!ULTRA!MEGA!EDITION!");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(800,600);
+        frame.setSize(806,636);
         frame.setResizable(false);
         frame.add(new MapView(gm));
         frame.setVisible(true);
