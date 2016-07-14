@@ -29,9 +29,13 @@ public class Player {
         image = iiPlayer1.getImage();
     }
     public void setStepX(int stepX){
+        if(stepX<0)
+            return;
         this.stepX = stepX;
     }
     public void setStepY(int stepY){
+        if(stepY<0)
+            return;
         this.stepY = stepY;
     }
 

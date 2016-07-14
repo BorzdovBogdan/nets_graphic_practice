@@ -20,6 +20,7 @@ public class MapView extends JPanel implements ActionListener{
     private GameView gameView;
     private GameMap gameMap;
     private ArrayList<Image> images;
+    private int kStep;
     public MapView(GameMap gm){
         addKeyListener(new TAdapter());
         setFocusable(true);
@@ -35,7 +36,6 @@ public class MapView extends JPanel implements ActionListener{
         images.add(loadImage("bomb1.png"));
         timer = new Timer(5, this);
         timer.start();
-
     }
     public Image loadImage(String imageName){
         ImageIcon imageIcon = new ImageIcon(this.getClass().getResource("images/"+imageName));
@@ -56,17 +56,14 @@ public class MapView extends JPanel implements ActionListener{
             for (int j = GameWindow.step*stepX; j < gameMap.getMap()[i].length-32; j+=32) {
                 switch (gameMap.getMap()[i][j]) {
                     case 'B': {
-                        g.drawImage(images.get(1), j - GameWindow.step*stepX, i - GameWindow.step*stepY, this);
+                        g.drawImage(images.get(1), (j - GameWindow.step*stepX), (i - GameWindow.step*stepY), this);
                         break;
                     }
                     case ' ': {
                         g.drawImage(images.get(0), j - GameWindow.step*stepX, i - GameWindow.step*stepY, this);
                         break;
                     }
-
                 }
-
-                //g.drawImage(images.get(1), j, i, this);
             }
             g.drawImage(images.get(1), gameMap.getMap()[i].length-32, i, this);
         }
@@ -74,8 +71,6 @@ public class MapView extends JPanel implements ActionListener{
         for (int i = GameWindow.step; i <gameMap.getMap()[0].length ; i+=32) {
             g.drawImage(images.get(1), i, gameMap.getMap().length-32, this);
         }
-
-
 
         for (int i = GameWindow.step*stepY; i < gameMap.getMap().length; i++) {
             for (int j = GameWindow.step*stepX; j < gameMap.getMap()[i].length; j++) {
@@ -90,6 +85,7 @@ public class MapView extends JPanel implements ActionListener{
             int y = gameMap.getPlayers().get(i).getY();
             g.drawImage(gameMap.getPlayers().get(i).getImage(), x, y, this);
         }
+
         for(int i =0; i < gameMap.getBombs().size();i++){
             g.drawImage(images.get(3),gameMap.getBombs().get(i).getX(),gameMap.getBombs().get(i).getY(),this);
         }
@@ -103,7 +99,6 @@ public class MapView extends JPanel implements ActionListener{
     private class TAdapter extends KeyAdapter {
 
         public void keyPressed(KeyEvent e) {
-
             gameView.keyPressed(e);
         }
 

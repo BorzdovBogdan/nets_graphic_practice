@@ -1,4 +1,7 @@
+/*
 package com.company;
+
+import jdk.nashorn.internal.ir.annotations.Ignore;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -44,4 +47,4 @@ public class FileToHashmap {
 
     public FileToHashmap() throws IOException {
     }
-}
+}*/

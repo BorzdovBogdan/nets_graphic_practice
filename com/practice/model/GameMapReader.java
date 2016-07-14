@@ -50,6 +50,7 @@ public class GameMapReader {
             int c=0;
             for(int i = 0;i<width&&c!=-1;i++){
                 c = reader.read();
+
                 for(int j = 0;j<length;c=reader.read(),j++){
                     if (c == '\n'||c == '\r') {
                         c = reader.read();
