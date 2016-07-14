@@ -36,23 +36,31 @@ public class MapView extends JPanel implements ActionListener{
         timer = new Timer(5, this);
         timer.start();
 
-
     }
     public Image loadImage(String imageName){
         ImageIcon imageIcon = new ImageIcon(this.getClass().getResource("images/"+imageName));
         return imageIcon.getImage();
     }
+    public void paintComponent(Graphics g){
+        for (int i = 0; i < gameMap.getPlayers().size(); i++) {
+            int x = gameMap.getPlayers().get(i).getX();
+            int y = gameMap.getPlayers().get(i).getY();
+            g.drawImage(gameMap.getPlayers().get(i).getImage(), x, y, this);
+        }
+    }
     public void paint(Graphics g) {
         super.paint(g);
-        for (int i = 0; i < gameMap.getMap().length-30; i+=32) {
-            for (int j = 0; j < gameMap.getMap()[i].length-32; j+=32) {
+        int stepY = gameMap.getPlayers().get(0).getStepY();
+        int stepX = gameMap.getPlayers().get(0).getStepX();
+        for (int i = GameWindow.step*stepY; i < gameMap.getMap().length-30; i+=32) {
+            for (int j = GameWindow.step*stepX; j < gameMap.getMap()[i].length-32; j+=32) {
                 switch (gameMap.getMap()[i][j]) {
                     case 'B': {
-                        g.drawImage(images.get(1), j, i, this);
+                        g.drawImage(images.get(1), j - GameWindow.step*stepX, i - GameWindow.step*stepY, this);
                         break;
                     }
                     case ' ': {
-                        g.drawImage(images.get(0), j, i, this);
+                        g.drawImage(images.get(0), j - GameWindow.step*stepX, i - GameWindow.step*stepY, this);
                         break;
                     }
 
@@ -63,16 +71,16 @@ public class MapView extends JPanel implements ActionListener{
             g.drawImage(images.get(1), gameMap.getMap()[i].length-32, i, this);
         }
 
-        for (int i = 0; i <gameMap.getMap()[0].length ; i+=32) {
+        for (int i = GameWindow.step; i <gameMap.getMap()[0].length ; i+=32) {
             g.drawImage(images.get(1), i, gameMap.getMap().length-32, this);
         }
 
 
 
-        for (int i = 0; i < gameMap.getMap().length; i++) {
-            for (int j = 0; j < gameMap.getMap()[i].length; j++) {
+        for (int i = GameWindow.step*stepY; i < gameMap.getMap().length; i++) {
+            for (int j = GameWindow.step*stepX; j < gameMap.getMap()[i].length; j++) {
                 if(gameMap.getMap()[i][j]=='1') {
-                    g.drawImage(images.get(2), j, i, this);
+                    g.drawImage(images.get(2), j - GameWindow.step*stepX, i - GameWindow.step*stepY, this);
                 }
             }
         }

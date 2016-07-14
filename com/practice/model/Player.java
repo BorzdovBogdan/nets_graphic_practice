@@ -15,7 +15,11 @@ public class Player {
     private int prevY;
     private int ID;
     private Image image;
+    private int stepX;
+    private int stepY;
     public Player(int x, int y,int id){
+        stepX = 0;
+        stepY = 0;
         ID =id;
         prevX =31;
         prevY =31;
@@ -24,6 +28,21 @@ public class Player {
         ImageIcon iiPlayer1 = new ImageIcon(this.getClass().getResource("1.png"));
         image = iiPlayer1.getImage();
     }
+    public void setStepX(int stepX){
+        this.stepX = stepX;
+    }
+    public void setStepY(int stepY){
+        this.stepY = stepY;
+    }
+
+    public int getStepX() {
+        return stepX;
+    }
+
+    public int getStepY() {
+        return stepY;
+    }
+
     public Image getImage(){
         return image;
     }

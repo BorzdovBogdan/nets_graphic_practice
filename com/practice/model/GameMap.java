@@ -75,6 +75,7 @@ public class GameMap implements ActionListener {
                     player.setPrevX(player.getX());
                     player.setPrevY(player.getY());
                     player.setY(y+32);
+                    player.setStepY(player.getStepY()+1);
                     map[y][x] = ' ';
                     return true;
                 }
@@ -86,6 +87,7 @@ public class GameMap implements ActionListener {
                     player.setPrevX(player.getX());
                     player.setPrevY(player.getY());
                     player.setY(y-32);
+                    player.setStepY(player.getStepY()-1);
                     map[y][x] = ' ';
                     return true;
                 }
@@ -97,6 +99,7 @@ public class GameMap implements ActionListener {
                     player.setPrevX(player.getX());
                     player.setPrevY(player.getY());
                     player.setX(x+32);
+                    player.setStepX(player.getStepX()+1);
                     map[y][x] = ' ';
                     return true;
                 }
@@ -108,6 +111,7 @@ public class GameMap implements ActionListener {
                     player.setPrevX(player.getX());
                     player.setPrevY(player.getY());
                     player.setX(x-32);
+                    player.setStepX(player.getStepX()-1);
                     map[y][x] = ' ';
                     return true;
                 }

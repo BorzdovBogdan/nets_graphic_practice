@@ -44,6 +44,11 @@ public class GameView extends JPanel implements KeyListener{
     }
     public void paintComponent(Graphics g){
         super.paintComponent(g);
+        for (int i = 0; i < gameMap.getPlayers().size(); i++) {
+            int x = gameMap.getPlayers().get(i).getX();
+            int y = gameMap.getPlayers().get(i).getY();
+            g.drawImage(gameMap.getPlayers().get(i).getImage(), x, y, this);
+        }
 
     }
 
