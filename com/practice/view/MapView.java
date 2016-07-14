@@ -13,14 +13,13 @@ import java.util.ArrayList;
 
 
 public class MapView extends JPanel implements ActionListener{
-    private static final long serialVersionUID = 1L;
 
     private Timer timer;
     private Player player1;
     private GameView gameView;
     private GameMap gameMap;
     private ArrayList<Image> images;
-    private int kStep;
+    private int step;
     public MapView(GameMap gm){
         addKeyListener(new TAdapter());
         setFocusable(true);
@@ -28,8 +27,8 @@ public class MapView extends JPanel implements ActionListener{
         setDoubleBuffered(true);
         gameMap = gm;
         gameView = new GameView(gameMap);
-        add(gameView);
-        images = new ArrayList<>(3);
+        step = GameWindow.blockCount/2;
+        images = new ArrayList<>(4);
         images.add(loadImage("background.png"));
         images.add(loadImage("block.png"));
         images.add(loadImage("wall.png"));
@@ -41,53 +40,46 @@ public class MapView extends JPanel implements ActionListener{
         ImageIcon imageIcon = new ImageIcon(this.getClass().getResource("images/"+imageName));
         return imageIcon.getImage();
     }
-    public void paintComponent(Graphics g){
-        for (int i = 0; i < gameMap.getPlayers().size(); i++) {
-            int x = gameMap.getPlayers().get(i).getX();
-            int y = gameMap.getPlayers().get(i).getY();
-            g.drawImage(gameMap.getPlayers().get(i).getImage(), x, y, this);
-        }
-    }
+
     public void paint(Graphics g) {
         super.paint(g);
         int stepY = gameMap.getPlayers().get(0).getStepY();
         int stepX = gameMap.getPlayers().get(0).getStepX();
-        for (int i = GameWindow.step*stepY; i < gameMap.getMap().length-30; i+=32) {
-            for (int j = GameWindow.step*stepX; j < gameMap.getMap()[i].length-32; j+=32) {
+        int x = gameMap.getPlayers().get(0).getX();
+        int y = gameMap.getPlayers().get(0).getY();
+        for (int i = y-step; i < y+step; i++) {
+            for (int j = x-step; j < x+step; j++) {
                 switch (gameMap.getMap()[i][j]) {
                     case 'B': {
-                        g.drawImage(images.get(1), (j - GameWindow.step*stepX), (i - GameWindow.step*stepY), this);
+                        g.drawImage(images.get(1), (j-stepX )*GameWindow.step, (i-stepY)*GameWindow.step, this);
                         break;
                     }
-                    case ' ': {
-                        g.drawImage(images.get(0), j - GameWindow.step*stepX, i - GameWindow.step*stepY, this);
+                    case '0': {
+                        g.drawImage(images.get(0), (j-stepX)*GameWindow.step, (i-stepY)*GameWindow.step, this);
+                        break;
+                    }
+                    case '1': {
+                        g.drawImage(images.get(2), (j-stepX)*GameWindow.step, (i-stepY)*GameWindow.step, this);
                         break;
                     }
                 }
             }
-            g.drawImage(images.get(1), gameMap.getMap()[i].length-32, i, this);
+            //g.drawImage(images.get(1), gameMap.getMap()[i].length*GameWindow.step, i*GameWindow.step, this);
         }
 
-        for (int i = GameWindow.step; i <gameMap.getMap()[0].length ; i+=32) {
-            g.drawImage(images.get(1), i, gameMap.getMap().length-32, this);
-        }
+        /*for (int i = GameWindow.step; i <gameMap.getMap()[0].length ; i+=32) {
+            g.drawImage(images.get(1), i, gameMap.getMap().length, this);
+        }*/
 
-        for (int i = GameWindow.step*stepY; i < gameMap.getMap().length; i++) {
-            for (int j = GameWindow.step*stepX; j < gameMap.getMap()[i].length; j++) {
-                if(gameMap.getMap()[i][j]=='1') {
-                    g.drawImage(images.get(2), j - GameWindow.step*stepX, i - GameWindow.step*stepY, this);
-                }
-            }
-        }
 
         for (int i = 0; i < gameMap.getPlayers().size(); i++) {
-            int x = gameMap.getPlayers().get(i).getX();
-            int y = gameMap.getPlayers().get(i).getY();
-            g.drawImage(gameMap.getPlayers().get(i).getImage(), x, y, this);
+            int xP = gameMap.getPlayers().get(i).getX();
+            int yP = gameMap.getPlayers().get(i).getY();
+            g.drawImage(gameMap.getPlayers().get(i).getImage(), (xP-stepX)*GameWindow.step, (yP-stepY)*GameWindow.step, this);
         }
 
         for(int i =0; i < gameMap.getBombs().size();i++){
-            g.drawImage(images.get(3),gameMap.getBombs().get(i).getX(),gameMap.getBombs().get(i).getY(),this);
+            g.drawImage(images.get(3),(gameMap.getBombs().get(i).getX()-stepX)*GameWindow.step,(gameMap.getBombs().get(i).getY()-stepY)*GameWindow.step,this);
         }
         Toolkit.getDefaultToolkit().sync();
         g.dispose();

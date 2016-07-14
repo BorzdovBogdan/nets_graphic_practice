@@ -11,22 +11,38 @@ public class Player {
     private int killed;
     private int x;
     private int y;
+    private int prevMove;
     private int prevX;
     private int prevY;
     private int ID;
     private Image image;
     private int stepX;
     private int stepY;
+    private boolean isPlantedBomb;
     public Player(int x, int y,int id){
         stepX = 0;
         stepY = 0;
         ID =id;
-        prevX =31;
-        prevY =31;
         this.x = x;
         this.y = y;
+        prevX =x;
+        prevY =y;
         ImageIcon iiPlayer1 = new ImageIcon(this.getClass().getResource("1.png"));
         image = iiPlayer1.getImage();
+        prevMove=0;
+        isPlantedBomb = true;
+    }
+    public void setPlantedBomb(boolean planted){
+        isPlantedBomb = planted;
+    }
+    public boolean isPlantedBomb(){
+        return isPlantedBomb;
+    }
+    public void setPrevMove(int move){
+        prevMove = move;
+    }
+    public int getPrevMove(){
+        return prevMove;
     }
     public void setStepX(int stepX){
         if(stepX<0)

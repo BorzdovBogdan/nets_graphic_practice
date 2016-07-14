@@ -13,7 +13,7 @@ public class Main {
     public static void main(String[] args) {
         ArrayList<Player> players = new ArrayList<>();
         //players.add(new Player(14,14));
-        GameMapReader gmr = new GameMapReader();
+        GameMapReader gmr = new GameMapReader(32,3);
         GameMap gameMap = new GameMap(gmr);
         GameWindow gw = new GameWindow(gameMap);
     }

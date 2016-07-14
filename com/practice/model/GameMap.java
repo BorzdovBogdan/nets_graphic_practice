@@ -11,19 +11,22 @@ import java.util.ArrayList;
 public class GameMap implements ActionListener {
 
     private final char map[][];
+    private final int DOWN = 1;
+    private final int UP = 2;
+    private final int LEFT = 3;
+    private final int RIGHT = 4;
     private ArrayList<Player> players;
     private ArrayList<Bomb> bombs;
     public GameMap(GameMapReader gmr/*,ArrayList<Player> players*/){
-        gmr.load("field.txt");
+        gmr.initGameMap("map.txt");
         this.map = gmr.getMap();
         players = new ArrayList<>();
         int c;
-        addBlocks();
         for(int i = 0; i < map.length;i++) {
             for (int j = 0; j < map[i].length; j++) {
                 c = map[i][j];
                 if (c == 'c' ) {
-                    if(i%31!=0&&j%31!=0){
+                    /*if(i%31!=0&&j%31!=0){
                         int modi=0;
                         int modj=0;
                         if(i<31){
@@ -40,7 +43,8 @@ public class GameMap implements ActionListener {
                         map[i][j] = ' ';
                         map[i+modi][j+modj] = (char)c;
                         continue;
-                    }
+                    }*/
+                    map[i][j]='0';
                     players.add(new Player(i, j, c));
                 }
             }
@@ -70,49 +74,57 @@ public class GameMap implements ActionListener {
         int k =1;
         switch (key){
             case KeyEvent.VK_DOWN: {
-                if(y+32*k < map.length && map[y+32*k][x]!='1'&&map[y+64][x]!='B'){
-                    map[y+32][x] =(char) player.getID();
+                if(y+1 < map.length && map[y+1][x]=='0'){
+                    //map[y+1][x] =(char) player.getID();
+                    player.setPrevMove(1);
                     player.setPrevX(player.getX());
                     player.setPrevY(player.getY());
-                    player.setY(y+32);
-                    player.setStepY(player.getStepY()+1);
-                    map[y][x] = ' ';
+                    player.setY(y + 1);
+                    player.setStepY(player.getStepY() + 1);
+                    player.setPlantedBomb(false);
+                    map[y][x] = '0';
                     return true;
                 }
                 return false;
             }
             case KeyEvent.VK_UP : {
-                if(y-32*k >-1 && map[y-32*k][x]!='1'){
-                    map[y-32][x] = (char) player.getID();
+                if(y-1 >-1 && map[y-1][x]=='0'){
+                    //map[y-1][x] = (char) player.getID();
+                    player.setPrevMove(2);
                     player.setPrevX(player.getX());
                     player.setPrevY(player.getY());
-                    player.setY(y-32);
-                    player.setStepY(player.getStepY()-1);
-                    map[y][x] = ' ';
+                    player.setY(y - 1);
+                    player.setStepY(player.getStepY() - 1);
+                    player.setPlantedBomb(false);
+                    map[y][x] = '0';
                     return true;
                 }
                 return false;
             }
             case KeyEvent.VK_RIGHT : {
-                if(x+32*k < map[y].length && map[y][x+32*k]!='1'&&map[y][x+64]!='B'){
-                    map[y][x+32] = (char) player.getID();
+                if(x+1 < map[y].length && map[y][x+1]=='0'){
+                    //map[y][x+1] = (char) player.getID();
+                    player.setPrevMove(4);
                     player.setPrevX(player.getX());
                     player.setPrevY(player.getY());
-                    player.setX(x+32);
-                    player.setStepX(player.getStepX()+1);
-                    map[y][x] = ' ';
+                    player.setX(x + 1);
+                    player.setStepX(player.getStepX() + 1);
+                    player.setPlantedBomb(false);
+                    map[y][x] = '0';
                     return true;
                 }
                 return false;
             }
             case KeyEvent.VK_LEFT: {
-                if(x-32*k > -1  && map[y][x-32*k]!='1'){
-                    map[y][x-32] = (char) player.getID();
+                if(x-1 > -1  && map[y][x-1]=='0'){
+                    //map[y][x-1] = (char) player.getID();
+                    player.setPrevMove(3);
                     player.setPrevX(player.getX());
                     player.setPrevY(player.getY());
-                    player.setX(x-32);
+                    player.setX(x-1);
                     player.setStepX(player.getStepX()-1);
-                    map[y][x] = ' ';
+                    player.setPlantedBomb(false);
+                    map[y][x] = '0';
                     return true;
                 }
                 return false;
@@ -124,23 +136,45 @@ public class GameMap implements ActionListener {
      * a bomb set to location of player and player move to previous location
      */
     public void setBomb(Player player){
-        int prX,prY;
+        if(player.isPlantedBomb()){
+            return;
+        }
+        int prX,prY,prevMove=player.getPrevMove();
         prX=player.getX();
         prY=player.getY();
-        map[player.getY()][player.getX()] = '*';
+        //map[player.getY()][player.getX()] = '*';
         bombs.add(new Bomb(player.getX(),player.getY()));
+        player.setPlantedBomb(true);
         player.setX(player.getPrevX());
         player.setY(player.getPrevY());
         player.setPrevX(prX);
         player.setPrevY(prY);
-        map[player.getY()][player.getX()] =(char) player.getID();
+        switch (prevMove){
+            case DOWN:{
+                player.setStepY(player.getStepY()-1);
+                break;
+            }
+            case UP:{
+                player.setStepY(player.getStepY()+1);
+                break;
+            }
+            case LEFT:{
+                player.setStepX(player.getStepX()+1);
+                break;
+            }
+            case RIGHT:{
+                player.setStepX(player.getStepX()-1);
+                break;
+            }
+        }
+        //map[player.getY()][player.getX()] =(char) player.getID();
     }
     public void tick(){
         for (int i = 0; i < bombs.size();i++){
             bombs.get(i).tickTime();
             if(bombs.get(i).getTime() == 0){
                 //explode
-                map[bombs.get(i).getX()][bombs.get(i).getY()] = ' ';
+                map[bombs.get(i).getX()][bombs.get(i).getY()] = '0';
                 bombs.remove(i);
             }
         }
