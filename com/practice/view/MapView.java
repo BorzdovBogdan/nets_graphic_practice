@@ -44,13 +44,18 @@ public class MapView extends JPanel implements ActionListener{
     public void paint(Graphics g) {
         super.paint(g);
         int stepY = gameMap.getPlayers().get(0).getStepY();
+<<<<<<< HEAD
         int stepX = gameMap.getPlayers().get(0).getStepX() ;
+=======
+        int stepX = gameMap.getPlayers().get(0).getStepX();
+>>>>>>> d5dd83c0bf0b1d4b46738808090c70a908272f0e
         int x = gameMap.getPlayers().get(0).getX();
         int y = gameMap.getPlayers().get(0).getY();
         for (int i = y-step; i < y+step; i++) {
             for (int j = x-step; j < x+step; j++) {
                 switch (gameMap.getMap()[i][j]) {
                     case 'B': {
+<<<<<<< HEAD
                         g.drawImage(images.get(1), (j-stepX )*GameWindow.step, (i-stepY)*GameWindow.step, GameWindow.step,GameWindow.step, this);
                         break;
                     }
@@ -60,6 +65,17 @@ public class MapView extends JPanel implements ActionListener{
                     }
                     case '1': {
                         g.drawImage(images.get(2), (j-stepX)*GameWindow.step, (i-stepY)*GameWindow.step, GameWindow.step, GameWindow.step, this);
+=======
+                        g.drawImage(images.get(1), (j-stepX )*GameWindow.step, (i-stepY)*GameWindow.step, this);
+                        break;
+                    }
+                    case '0': {
+                        g.drawImage(images.get(0), (j-stepX)*GameWindow.step, (i-stepY)*GameWindow.step, this);
+                        break;
+                    }
+                    case '1': {
+                        g.drawImage(images.get(2), (j-stepX)*GameWindow.step, (i-stepY)*GameWindow.step, this);
+>>>>>>> d5dd83c0bf0b1d4b46738808090c70a908272f0e
                         break;
                     }
                 }
@@ -75,11 +91,19 @@ public class MapView extends JPanel implements ActionListener{
         for (int i = 0; i < gameMap.getPlayers().size(); i++) {
             int xP = gameMap.getPlayers().get(i).getX();
             int yP = gameMap.getPlayers().get(i).getY();
+<<<<<<< HEAD
             g.drawImage(gameMap.getPlayers().get(i).getImage(), (xP-stepX)*GameWindow.step, (yP-stepY)*GameWindow.step,GameWindow.step, GameWindow.step, this);
         }
 
         for(int i =0; i < gameMap.getBombs().size();i++){
             g.drawImage(images.get(3),(gameMap.getBombs().get(i).getX()-stepX)*GameWindow.step,(gameMap.getBombs().get(i).getY()-stepY)*GameWindow.step,GameWindow.step, GameWindow.step,this);
+=======
+            g.drawImage(gameMap.getPlayers().get(i).getImage(), (xP-stepX)*GameWindow.step, (yP-stepY)*GameWindow.step, this);
+        }
+
+        for(int i =0; i < gameMap.getBombs().size();i++){
+            g.drawImage(images.get(3),(gameMap.getBombs().get(i).getX()-stepX)*GameWindow.step,(gameMap.getBombs().get(i).getY()-stepY)*GameWindow.step,this);
+>>>>>>> d5dd83c0bf0b1d4b46738808090c70a908272f0e
         }
         Toolkit.getDefaultToolkit().sync();
         g.dispose();

@@ -1,7 +1,12 @@
 package nets_graphic_practice.com.practice.model;
+<<<<<<< HEAD
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+=======
+import java.io.*;
+import java.util.Random;
+>>>>>>> d5dd83c0bf0b1d4b46738808090c70a908272f0e
 
 public class GameMapReader {
     private char map[][];
