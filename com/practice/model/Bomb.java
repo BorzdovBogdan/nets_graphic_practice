@@ -21,14 +21,17 @@ public class Bomb {
     }
 
     public int getTime() {
+
         return time;
     }
 
     public int getX() {
+
         return x;
     }
 
     public int getY() {
+
         return y;
     }
 }

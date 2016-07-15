@@ -11,9 +11,11 @@ public class MapEvent {
     private int PLAYER_MOVE_LEFT=4;
     private int BOMB_CRASHED=5;
     public void setEventType(int eventType){
+
         this.eventType = eventType;
     }
     public int getEventType() {
+
         return eventType;
     }
 }

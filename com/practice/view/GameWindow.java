@@ -5,7 +5,7 @@ import nets_graphic_practice.com.practice.model.GameMap;
 import javax.swing.JFrame;
 
 public class GameWindow extends JFrame {
-    public static int step=32;
+    public static int step=128;
     public static int blockCount = 8;
     private JFrame frame;
     private GameMap gameMap;
