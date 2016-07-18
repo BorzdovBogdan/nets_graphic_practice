@@ -53,7 +53,12 @@ public class GameMap implements ActionListener {
 
         }
     }
-
+    public boolean canJoin(){
+        if(players.size()==4){
+            return false;
+        }
+        return true;
+    }
     public ArrayList<Bomb> getBombs() {
         return bombs;
     }
