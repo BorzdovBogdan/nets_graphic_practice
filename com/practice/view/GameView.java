@@ -12,22 +12,27 @@ import java.awt.event.KeyListener;
 public class GameView extends JPanel implements KeyListener{
 
     private GameMap gameMap;
-    public GameView(GameMap gameMap) {
+    private MapView mapView;
+    public GameView(GameMap gameMap,MapView mapView) {
         this.gameMap = gameMap;
-
+        this.mapView =mapView;
     }
     @Override
     public void keyPressed(KeyEvent e) {
 
         int key = e.getKeyCode();
-        if (key == KeyEvent.VK_SPACE){
+        gameMap.move(key,gameMap.getPlayers().get(0),mapView);
+        if(key==KeyEvent.VK_SPACE)
+            gameMap.setBomb(gameMap.getPlayers().get(0),mapView);
+        /*if (key == KeyEvent.VK_SPACE){
             gameMap.setBomb(gameMap.getPlayers().get(0));
             repaint();
         }
         if(!(gameMap.move(key,gameMap.getPlayers().get(0))))
             return;
 
-        repaint();
+        repaint();*/
+
 
     }
     @Override

@@ -80,7 +80,6 @@ public class GameMapReader {
 
         try{
             BufferedReader fileReader = new BufferedReader(new FileReader(pathCanon()+fileName));
-
             width = ((Integer.parseInt(fileReader.readLine()))/sizeOfThing)+border;
             length = ((Integer.parseInt(fileReader.readLine()))/sizeOfThing)+border;
             fileReader.close();

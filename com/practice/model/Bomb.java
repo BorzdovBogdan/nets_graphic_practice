@@ -5,15 +5,33 @@ package nets_graphic_practice.com.practice.model;
  */
 public class Bomb {
     private int time;
-    private static final int INITIAL_TIME = 10;
+    private static final int INITIAL_TIME = 50;
     private int x;
     private int y;
-
+    private boolean isExploded;
+    private int explosionTime;
     public Bomb(int x,int y){
         time = INITIAL_TIME;
         this.x = x;
         this.y = y;
+        isExploded=false;
+        explosionTime = 5;
+    }
 
+    public void setExploded(boolean exploded) {
+        isExploded = exploded;
+    }
+
+    public int getExplosionTime() {
+        return explosionTime;
+    }
+
+    public void setExplosionTime(int explosionTime) {
+        this.explosionTime = explosionTime;
+    }
+
+    public boolean isExploded() {
+        return isExploded;
     }
 
     public void tickTime() {

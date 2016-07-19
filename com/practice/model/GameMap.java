@@ -1,9 +1,16 @@
 package nets_graphic_practice.com.practice.model;
 
+import nets_graphic_practice.com.practice.view.GameView;
+import nets_graphic_practice.com.practice.view.MapEvent;
+import nets_graphic_practice.com.practice.view.MapView;
+import sun.swing.BakedArrayList;
+
+import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
+
 
 /**
  * Created by Bogdan on 06.07.2016.
@@ -11,12 +18,17 @@ import java.util.ArrayList;
 public class GameMap implements ActionListener {
 
     private final char map[][];
-    private final int DOWN = 1;
-    private final int UP = 2;
-    private final int LEFT = 3;
-    private final int RIGHT = 4;
+    public final int UP=0;
+    public final int DOWN=1;
+    public final int RIGHT=2;
+    public final int LEFT=3;
+    public final int BOMB_PLANTED=4;
+    public final int BOMB_EXPLODED=5;
     private ArrayList<Player> players;
     private ArrayList<Bomb> bombs;
+    private Timer timer;
+    private MapView mapView;
+    private ArrayList<Thread> bombsThreads;
     public GameMap(GameMapReader gmr/*,ArrayList<Player> players*/){
         gmr.initGameMap("map.txt");
         this.map = gmr.getMap();
@@ -50,8 +62,13 @@ public class GameMap implements ActionListener {
             }
             //this.players = players;
             bombs = new ArrayList<>();
-
+            bombsThreads = new ArrayList<>();
+            timer = new Timer(5,this);
+            timer.start();
         }
+    }
+    public void setMapView(MapView mapView){
+        this.mapView = mapView;
     }
     public boolean canJoin(){
         if(players.size()==4){
@@ -59,6 +76,7 @@ public class GameMap implements ActionListener {
         }
         return true;
     }
+
     public ArrayList<Bomb> getBombs() {
         return bombs;
     }
@@ -73,10 +91,9 @@ public class GameMap implements ActionListener {
     public char[][] getMap(){
         return map;
     }
-    public boolean move(int key,Player player){
+    public boolean move(int key, Player player, MapView mapView){
         int x = player.getX();
         int y = player.getY();
-        int k =1;
         switch (key){
             case KeyEvent.VK_DOWN: {
                 if(y+1 < map.length && map[y+1][x]=='0'){
@@ -88,6 +105,7 @@ public class GameMap implements ActionListener {
                     player.setStepY(player.getStepY() + 1);
                     player.setPlantedBomb(false);
                     map[y][x] = '0';
+                    mapView.newEvent(new MapEvent(DOWN));
                     return true;
                 }
                 return false;
@@ -102,6 +120,7 @@ public class GameMap implements ActionListener {
                     player.setStepY(player.getStepY() - 1);
                     player.setPlantedBomb(false);
                     map[y][x] = '0';
+                    mapView.newEvent(new MapEvent(UP));
                     return true;
                 }
                 return false;
@@ -116,6 +135,7 @@ public class GameMap implements ActionListener {
                     player.setStepX(player.getStepX() + 1);
                     player.setPlantedBomb(false);
                     map[y][x] = '0';
+                    mapView.newEvent(new MapEvent(RIGHT));
                     return true;
                 }
                 return false;
@@ -130,6 +150,7 @@ public class GameMap implements ActionListener {
                     player.setStepX(player.getStepX()-1);
                     player.setPlantedBomb(false);
                     map[y][x] = '0';
+                    mapView.newEvent(new MapEvent(LEFT));
                     return true;
                 }
                 return false;
@@ -140,7 +161,7 @@ public class GameMap implements ActionListener {
     /**
      * a bomb set to location of player and player move to previous location
      */
-    public void setBomb(Player player){
+    public void setBomb(Player player,MapView mapView){
         if(player.isPlantedBomb()){
             return;
         }
@@ -148,7 +169,17 @@ public class GameMap implements ActionListener {
         prX=player.getX();
         prY=player.getY();
         //map[player.getY()][player.getX()] = '*';
-        bombs.add(new Bomb(player.getX(),player.getY()));
+        Bomb bomb = new Bomb(player.getX(),player.getY());
+        /*bombsThreads.add(new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while (bomb.getTime()>0){
+                    bomb.tickTime();
+                }
+                mapView.newEvent();
+            }
+        }));*/
+        bombs.add(bomb);
         player.setPlantedBomb(true);
         player.setX(player.getPrevX());
         player.setY(player.getPrevY());
@@ -172,14 +203,19 @@ public class GameMap implements ActionListener {
                 break;
             }
         }
+        mapView.newEvent(new MapEvent(BOMB_PLANTED));
+
         //map[player.getY()][player.getX()] =(char) player.getID();
     }
+
     public void tick(){
+        if(bombs.size()==0)
+            return;
         for (int i = 0; i < bombs.size();i++){
             bombs.get(i).tickTime();
             if(bombs.get(i).getTime() == 0){
-                //explode
-                map[bombs.get(i).getX()][bombs.get(i).getY()] = '0';
+                bombs.get(i).setExploded(true);
+                mapView.newEvent(new MapEvent(BOMB_EXPLODED));
                 bombs.remove(i);
             }
         }
@@ -211,6 +247,7 @@ public class GameMap implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        //tick();
 
     }
 }

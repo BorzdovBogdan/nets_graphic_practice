@@ -12,29 +12,35 @@ import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
 
-public class MapView extends JPanel implements ActionListener{
+public class MapView extends JPanel implements /*ActionListener,*/MapListener{
 
     private Timer timer;
-    private Player player1;
     private GameView gameView;
     private GameMap gameMap;
     private ArrayList<Image> images;
     private int step;
+    public final int UP=0;
+    public final int DOWN=1;
+    public final int RIGHT=2;
+    public final int LEFT=3;
+    public final int BOMB_PLANTED=4;
+    public final int BOMB_EXPLODED=5;
     public MapView(GameMap gm){
         addKeyListener(new TAdapter());
         setFocusable(true);
         setBackground(Color.BLACK);
         setDoubleBuffered(true);
         gameMap = gm;
-        gameView = new GameView(gameMap);
+        gm.setMapView(this);
+        gameView = new GameView(gameMap,this);
         step = GameWindow.blockCount/2;
         images = new ArrayList<>(4);
         images.add(loadImage("background.png"));
         images.add(loadImage("block.png"));
         images.add(loadImage("wall.png"));
         images.add(loadImage("bomb1.png"));
-        timer = new Timer(5, this);
-        timer.start();
+        /*timer = new Timer(5, this);
+        timer.start();*/
     }
     public Image loadImage(String imageName){
         ImageIcon imageIcon = new ImageIcon(this.getClass().getResource("images/"+imageName));
@@ -84,8 +90,15 @@ public class MapView extends JPanel implements ActionListener{
         Toolkit.getDefaultToolkit().sync();
         g.dispose();
     }
-    public void actionPerformed(ActionEvent e) {
+    /*public void actionPerformed(ActionEvent e) {
         repaint();
+    }*/
+
+    @Override
+    public void newEvent(MapEvent m) {
+        if(m.getEventType()!=-1){
+            repaint();
+        }
     }
 
     private class TAdapter extends KeyAdapter {
